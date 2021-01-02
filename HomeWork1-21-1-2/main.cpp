@@ -28,13 +28,17 @@ Status InitList(SqList &L) {
     L.length = 0;
     return 1;
 }
-void State(SqList &L,int n){
+int State(SqList &L,int n){
     if (n==MAXSIZE){
-        printf("满\n");
+        printf("状态：已经存满数据\n");
+        return n=-1;
     } else if (n==0){
-        printf("空\n");
+        printf("状态：未录入数据\n");
+        return n=0;
     } else{
-        printf("未满\n");
+        printf("状态：还能继续录入数据\n");
+        return n;
+
     }
 }
 //返回学生信息
@@ -166,30 +170,32 @@ void Input(ElemType *e) {
 }
 
 void Output(ElemType *e) {
-    printf("姓名:%-20s\n学号:%-10d\n成绩:%-10.2lf\n\n", e->name, e->no, e->price);
+    printf("姓名:%-20s\n学号:%-10d\n成绩:%-10.1lf\n\n", e->name, e->no, e->price);
 }
-
+void Outputnext(ElemType *e) {
+    printf("姓名:%s 学号:%d 成绩:%.1f \n", e->name, e->no, e->price);
+}
 int main() {
     SqList L;
-    ElemType a, b, c, d;
-    printf("\n1.构造顺序表\n");
-    printf("2.输入学生信息\n");
-    printf("3.显示学生表信息\n");
-    printf("4.根据姓名进行查找\n");
-    printf("5.显示指定的位置学生信息\n");
-    printf("6.在指定位置插入学生信息\n");
-    printf("7.删除指定位置的学生记录\n");
-    printf("8.统计学生人数\n");
-    printf("9.二分查找id\n");
-    printf("11.插入排序：\n");
-    printf("10.退出\n\n");
+    ElemType a, b, c, d,e;
+
     int n, choose;
     while (1) {
-        printf("%d",L.length);
-        State(L,L.length);
+        printf("\n1.构造顺序表\n");
+        printf("2.输入学生信息\n");
+        printf("3.显示学生表信息\n");
+        printf("4.根据姓名进行顺序查找\n");
+        printf("5.显示指定的位置学生信息\n");
+        printf("6.在指定位置插入学生信息\n");
+        printf("7.删除指定位置的学生记录\n");
+        printf("8.删除当前的学生记录\n");
+        printf("9.统计学生人数\n");
+        printf("10.二分查找学号（id）\n");
+        printf("11.插入排序\n");
+        printf("12.退出\n\n");
         printf("请选择：");
         scanf("%d", &choose);
-        if (choose == 10) break;
+        if (choose == 12) break;
         switch (choose) {
             case 1:
                 if (InitList(L))
@@ -222,14 +228,13 @@ int main() {
                 else
                     printf("没有此学生信息！\n");
                 break;
-            case 9:
+            case 10:
                 int idd, k1;
-
                 printf("请输入要查找的学生id:");
                 scanf("%d", &idd);
 
                 k1 = BinSearch(L, idd, L.length);
-                if (k1) {
+                if (k1!=-1) {
                     printf("找到了\n");
                     Output(&L.elem[k1]);
                 } else {
@@ -278,9 +283,26 @@ int main() {
                 }
                 break;
             case 8:
+                if (ListDeleteNUM1(L)) {
+                    n--;
+                    puts("删除成功");
+                } else {
+                    puts("删除失败");
+                }
+                break;
+            case 9:
                 printf("已录入的学生个数为:%d\n\n", L.length);
                 break;
         }
+        printf("已录入的学生数： %d ",L.length);
+        int stateout;
+        stateout=State(L,L.length);
+        if (stateout!=0){
+            printf("最近一次录入的数据：\n");
+            e = GetElem(L, n);
+            Outputnext(&e);
+        }
+
     }
     return 0;
 }
