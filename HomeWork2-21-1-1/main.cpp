@@ -4,7 +4,7 @@
 #include<string.h>
 //链式存储
 #define maxsize 10001
-
+/*二叉排序树*/
 int key;
 typedef struct BiTNode
 {
@@ -64,7 +64,7 @@ void midPrint(BiTree root) //中序输出
     }
 }
 
-///////////////////////////
+/*链式存储*/
 typedef int Status;
 
 //学生信息定义
@@ -122,6 +122,22 @@ Status GetElemID(LinkList L,int i,ElemType &e)//
 // 根据名字进行查找
 Status Search(LNode L,char str[],LinkList &p)
 {
+    int i =1;
+	p=L.next;
+	while(p)
+	{
+
+		if(strcmp(p->data.name,str)==0){
+
+            return i;
+		}
+		p=p->next;
+        i++;
+	}
+	return 0;
+}
+/*Status Search(LNode L,char str[],LinkList &p)
+{
 	p=L.next;
 	while(p)
 	{
@@ -130,7 +146,7 @@ Status Search(LNode L,char str[],LinkList &p)
 		p=p->next;
 	}
 	return 0;
-}
+}*/
 // 在指定位置插入某个学生的信息
 Status ListInsert(LinkList L,int i,ElemType e)
 {
@@ -215,11 +231,64 @@ void Output(ElemType *e)
 {
 	printf("姓名:%-20s\n学号:%-10d\n成绩:%-10.2lf\n\n",e->name,e->no,e->price);
 }
+void State(int size,ElemType *first,ElemType *least){
+    printf("当前排队人数：%d ",size);
+    printf("队首：%s ",first->name);
+    printf("队尾：%s ",least->name);
+}
+//获取链表有效节点的个数
+int SListSize(LinkList L)
+{
+    LinkList p;
+    p=L->next;
+    int count = 0;
+    while (p) {
+        p=p->next;
+        count++;
+    }
+    return count;
+}
+//获取链表第一个元素
+Status GetElemFirst(LinkList L,ElemType &first)
+{
+    int i=1;
+    LinkList p;
+    p=L->next;
+    int j=1;
+    while(p&&j<i)
+    {
+        p=p->next;
+        ++j;
+    }
+    if(!p||j>i)
+        return 0;
+//    return *p->data.name;
+    first=p->data;
+    return 1;
+}
+//获取链表最后一个元素
+Status GetElemLeast(LinkList L,ElemType &least,int i)//传n给i
+{
+
+    LinkList p;
+    p=L->next;
+    int j=1;
+    while(p&&j<i)
+    {
+        p=p->next;
+        ++j;
+    }
+    if(!p||j>i)
+        return 0;
+//    return *p->data.name;
+    least=p->data;
+    return 1;
+}
 
 int main(){
 	LNode L;
 	LinkList p;
-	ElemType a,b,c,d;
+	ElemType a,b,c,d,first,least;
 
 	int n,choose;
 	while(1) {
@@ -259,10 +328,15 @@ int main(){
 					}
 					break;
 			case 4:	char str[15];
+			        int d6;
 					printf("请输入要查找的学生姓名:");
 					scanf("%s",str);
-					if(Search(L,str,p))
-						Output(&(p->data));
+					if(Search(L,str,p)){
+					    d6=Search(L,str,p);
+                        Output(&(p->data));
+                        printf("位置：%d",d6);
+					}
+
 					else
 						printf("没有此学生信息！\n");
 					break;
@@ -340,6 +414,11 @@ int main(){
                     printf("\n");
                     break;
 		}
+		int size;
+		size=SListSize(&L);
+		GetElemFirst(&L,first);
+		GetElemLeast(&L,least,n);
+        State(size,&first,&least);
 	}
 	return 0;
 }
