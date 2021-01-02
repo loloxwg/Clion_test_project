@@ -2,7 +2,7 @@
 #include<malloc.h>
 #include<stdlib.h>
 #include<string.h>
-//链式存储
+//基于链式存储的食堂排队程序设计
 #define maxsize 10001
 /*二叉排序树*/
 int key;
@@ -69,9 +69,9 @@ typedef int Status;
 
 //学生信息定义
 typedef struct {
-    int no;   //8位学号
+    int no;   //饭卡卡号
     char name[20]; //姓名
-    double price;     //成绩
+//    double price;     //成绩
 }student;
 
 typedef student ElemType;
@@ -222,14 +222,14 @@ Status ListDeleteNUM1(LinkList p)
 void Input(ElemType *e)
 {
 	printf("姓名:");	scanf("%s",e->name);
-	printf("学号:");	scanf("%d",&e->no);
-	printf("成绩:");	scanf("%lf",&e->price);
+	printf("卡号:");	scanf("%d",&e->no);
+//	printf("成绩:");	scanf("%lf",&e->price);
 	printf("输入完成\n\n");
 }
 
 void Output(ElemType *e)
 {
-	printf("姓名:%-20s\n学号:%-10d\n成绩:%-10.2lf\n\n",e->name,e->no,e->price);
+	printf("姓名:%-20s\n卡号:%-10d\n\n",e->name,e->no);
 }
 void State(int size,ElemType *first,ElemType *least){
     printf("当前排队人数：%d ",size);
@@ -418,6 +418,7 @@ int main(){
 		size=SListSize(&L);
 		GetElemFirst(&L,first);
 		GetElemLeast(&L,least,n);
+		printf("\n");
         State(size,&first,&least);
 	}
 	return 0;
