@@ -181,7 +181,8 @@ int main() {
 
     int n, choose;
     while (1) {
-        printf("\n1.构造顺序表\n");
+        printf("\n------学生名册管理程序------\n");
+        printf("1.构造顺序表\n");
         printf("2.输入学生信息\n");
         printf("3.显示学生表信息\n");
         printf("4.根据姓名进行顺序查找\n");
